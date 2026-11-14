@@ -14,14 +14,13 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(JUCE)
 
 # Бинарные данные для UI (шрифты и картинки)
-juce_add_binary_data(PepelSpaceAssets SOURCES
-    Assets/Doppelganger_RUS.ttf
-    Assets/VHS.ttf
-    Assets/bg.png
-)
+file(GLOB_RECURSE AssetFiles CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Assets/*")
+if(NOT AssetFiles)
+    message(FATAL_ERROR "Папка Assets пуста или не найдена! Добавьте файлы шрифтов и фона.")
+endif()
+juce_add_binary_data(PepelSpaceAssets SOURCES ${AssetFiles})
 
 juce_add_plugin(PepelSpace
-    juce_generate_juce_header(PepelSpace)
     COMPANY_NAME               "Pepel"
     PLUGIN_MANUFACTURER_CODE   Pep1
     PLUGIN_CODE                Psp1
@@ -33,6 +32,9 @@ juce_add_plugin(PepelSpace
     EDITOR_WANTS_KEYBOARD_FOCUS FALSE
     COPY_PLUGIN_AFTER_BUILD    FALSE
 )
+
+# ВОТ ОНА, ДОЛЖНА БЫТЬ ЗДЕСЬ (вне скобок juce_add_plugin)
+juce_generate_juce_header(PepelSpace)
 
 target_sources(PepelSpace PRIVATE
     Source/PluginProcessor.cpp
@@ -57,6 +59,8 @@ target_link_libraries(PepelSpace PRIVATE
     juce::juce_recommended_lto_flags
     juce::juce_recommended_warning_flags
 )
+
+# Явный путь к сгенерированным заголовкам (на всякий случай)
 target_include_directories(PepelSpace PRIVATE
     "${CMAKE_BINARY_DIR}/PepelSpace_artefacts/JuceLibraryCode"
 )
