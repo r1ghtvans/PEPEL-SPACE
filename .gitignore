@@ -1,6 +1,5 @@
 build/
-out/
+build-*/
+shots/
 .vs/
 *.user
-*.suo
-*.vst3
