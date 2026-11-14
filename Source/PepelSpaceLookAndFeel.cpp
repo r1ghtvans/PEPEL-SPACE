@@ -3,8 +3,8 @@
 PepelSpaceLookAndFeel::PepelSpaceLookAndFeel()
 {
     // Загрузка шрифтов из бинарных данных (имена файлов должны совпадать с CMake)
-    vhsTypeface = juce::Typeface::createSystemTypefaceFor(BinaryData::VHSttf, BinaryData::VHSttfSize);
-    doppelgangerTypeface = juce::Typeface::createSystemTypefaceFor(BinaryData::DoppelgangerRUSttf, BinaryData::DoppelgangerRUSttfSize);
+    vhsTypeface = juce::Typeface::createSystemTypefaceFor(BinaryData::VHS_ttf, BinaryData::VHS_ttfSize);
+    doppelgangerTypeface = juce::Typeface::createSystemTypefaceFor(BinaryData::Doppelganger_RUS_ttf, BinaryData::Doppelganger_RUS_ttfSize);
 
     setColour(juce::Slider::rotarySliderFillColourId, juce::Colour(0xff4da3ff)); // Неоновый синий
     setColour(juce::Slider::rotarySliderOutlineColourId, juce::Colour(0xff2a2a33));
