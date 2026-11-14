@@ -1,32 +1,31 @@
-name: Build VST3
+name: build
+
 on:
   push:
-    branches: [ main, master ]
+  pull_request:
   workflow_dispatch:
 
 jobs:
-  build-windows:
-    runs-on: windows-2022
+  windows:
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
-      # ВСТАВЬ / ЗАМЕНИ ШАГ ОЧИСТКИ ВОТ ТАК:
-      - name: Clean build directory
-        shell: bash
-        run: rm -rf build
+      # DSP checks run first: a broken engine fails the build before the plugin is packaged.
+      - name: Configure (tools)
+        run: cmake -S . -B build-tools -G "Visual Studio 17 2022" -A x64 -DPEPEL_BUILD_TOOLS=ON
+      - name: Build DspTest
+        run: cmake --build build-tools --config Release --target DspTest --parallel 3
+      - name: Run DspTest
+        run: build-tools/DspTest_artefacts/Release/DspTest.exe
 
-      - name: Configure CMake
-        run: cmake -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release
-
-      - name: Build
-        run: cmake --build build --config Release --parallel
-
-      - name: Collect VST3
-        run: |
-          mkdir out
-          xcopy /E /I /Y "build\PepelSpace_artefacts\Release\VST3" "out\VST3"
+      - name: Configure (plugin)
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+      - name: Build VST3
+        run: cmake --build build --config Release --target PepelSpace_VST3 --parallel 3
 
       - uses: actions/upload-artifact@v4
         with:
-          name: PepelSpace-VST3-Windows
-          path: out/VST3
+          name: PEPEL-SPACE-VST3-Windows
+          path: build/PepelSpace_artefacts/Release/VST3/
+          if-no-files-found: error
