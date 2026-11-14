@@ -21,6 +21,7 @@ juce_add_binary_data(PepelSpaceAssets SOURCES
 )
 
 juce_add_plugin(PepelSpace
+    juce_generate_juce_header(PepelSpace)
     COMPANY_NAME               "Pepel"
     PLUGIN_MANUFACTURER_CODE   Pep1
     PLUGIN_CODE                Psp1
