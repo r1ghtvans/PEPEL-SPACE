@@ -9,16 +9,23 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
+
+      # ВСТАВЬ / ЗАМЕНИ ШАГ ОЧИСТКИ ВОТ ТАК:
       - name: Clean build directory
+        shell: bash
         run: rm -rf build
+
       - name: Configure CMake
         run: cmake -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release
+
       - name: Build
         run: cmake --build build --config Release --parallel
+
       - name: Collect VST3
         run: |
           mkdir out
           xcopy /E /I /Y "build\PepelSpace_artefacts\Release\VST3" "out\VST3"
+
       - uses: actions/upload-artifact@v4
         with:
           name: PepelSpace-VST3-Windows
