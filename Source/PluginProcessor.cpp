@@ -187,3 +187,9 @@ void PepelSpaceAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, ju
 juce::AudioProcessorEditor* PepelSpaceAudioProcessor::createEditor() { return new PepelSpaceAudioProcessorEditor(*this); }
 void PepelSpaceAudioProcessor::getStateInformation(juce::MemoryBlock& dest) { if (auto s = apvts.copyState().createXml()) copyXmlToBinary(*s, dest); }
 void PepelSpaceAudioProcessor::setStateInformation(const void* data, int size) { if (auto xml = getXmlFromBinary(data, size)) if (xml->hasTagName(apvts.state.getType())) apvts.replaceState(juce::ValueTree::fromXml(*xml)); }
+// Эта функция обязательна для создания плагина.
+// Она возвращает новый экземпляр твоего аудио-процессора.
+juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
+{
+    return new PepelSpaceAudioProcessor();
+}
