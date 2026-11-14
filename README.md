@@ -1,23 +1,7 @@
-# Pepel Space - Post-Soviet VHS Stereo Processor
+# PEPEL SPACE
+Stereo spatial processor (VST3, Windows x64), JUCE 8 / C++17 / CMake. Built for FL Studio on a single Send/Insert.
+Look: post-soviet night courtyard + VHS. See `Assets/README.md` for replaceable fonts.
 
-Плагин для пространственной обработки звука в стиле VHS-нуар.
-Разработан для FL Studio (VST3).
-
-## Требования к сборке
-- Visual Studio 2022
-- CMake 3.22+
-
-## ⚠️ ВАЖНО: Ассеты (Assets)
-Для сборки вам необходимо создать папку `Assets` в корне проекта и поместить туда:
-1. `Doppelganger_RUS.ttf` (шрифт для заголовков)
-2. `VHS.ttf` (шрифт для текста, например VCR OSD Mono)
-3. `bg.png` (фоновая картинка ночного двора/панелек, желательно 1000x750)
-
-Без этих файлов CMake выдаст ошибку при сборке BinaryData.
-
-## Сборка
-```bash
-git clone <your-repo-url>
-cd pepel-space
-cmake -B build -G "Visual Studio 17 2022" -A x64
-cmake --build build --config Release
+Local build: `cmake -S . -B build -G "Visual Studio 17 2022" -A x64 && cmake --build build --config Release --target PepelSpace_VST3`
+Tools: add `-DPEPEL_BUILD_TOOLS=ON`, targets `DspTest` (DSP checks) and `Snapshot` (UI -> PNG).
+Output: `build/PepelSpace_artefacts/Release/VST3/PEPEL SPACE.vst3`
