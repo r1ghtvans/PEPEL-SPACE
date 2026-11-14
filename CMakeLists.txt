@@ -57,3 +57,6 @@ target_link_libraries(PepelSpace PRIVATE
     juce::juce_recommended_lto_flags
     juce::juce_recommended_warning_flags
 )
+target_include_directories(PepelSpace PRIVATE
+    "${CMAKE_BINARY_DIR}/PepelSpace_artefacts/JuceLibraryCode"
+)
